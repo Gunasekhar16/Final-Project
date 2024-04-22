@@ -35,9 +35,8 @@ router.post("/signup", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, config.get("jwtPrivateKey"));
-    // localStorage.setItem("token", token);
     req.session.token = token;
-    res.redirect(200, "/books-list");
+    res.redirect("/books-list");
   } catch (err) {
     res.render("signup", { error: err.message });
   }
@@ -57,7 +56,6 @@ router.post("/login", async (req, res) => {
     }
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, config.get("jwtPrivateKey"));
-    // localStorage.setItem("token", token);
     req.session.token = token;
     res.redirect("/books-list");
   } catch (err) {
