@@ -1,7 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 0;
+    margin: 0px;
 }
 
 h1 {
@@ -11,6 +10,8 @@ h1 {
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 20px;
+
 }
 
 li {
@@ -39,6 +40,7 @@ li {
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
+    margin-left: 20px;
     margin-bottom: 10px;
 }
 
@@ -52,4 +54,22 @@ li {
 
 .view-button {
     background-color: #28a745;
+}
+
+
+/* Style for the top header bar */
+.top-header {
+    background-color: #004981;
+    color: white;
+    text-align: left;
+    margin: 0px;
+    padding: 20px;
+}
+
+/* Style for the logout button */
+.logout-button {
+    float: right;
+    margin-right: 20px;
+    color: white;
+    text-decoration: none;
 }

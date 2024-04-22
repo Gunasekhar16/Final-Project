@@ -1,8 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const authRoutes = require('./routes/auth.js');
-const booksRoutes = require('./routes/books.js');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session= require('express-session')

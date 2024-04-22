@@ -5,54 +5,52 @@ const getBook = require("../middleware/getBooks");
 const auth = require("../middleware/auth");
 
 router.get("/books-list", (req, res) => {
-    res.render("books");
-    
-  });
+  res.render("books");
+});
 
-
-  router.get("/new", (req, res) => {
-    console.log("IN ADD NEW BOOK ")
-    res.render("addBook");
-    
-  });
-  
-//   router.get("/book-detail/:id", (req, res) => {
-//     res.render("addEditBook");
-    
-//   });
-// Get all booksf
-// router.get("/", auth, async (req, res) => {
-//   try {
-//     const books = await Book.find();
-//     // res.status(200).send({ success: true, data: books });
-//     res.redirect("/books-list");
-
-//   } catch (err) {
-//     res.status(500).send({ success: false, message: err.message });
-//   }
-// });
+router.get("/new", (req, res) => {
+  res.render("addBook");
+});
 
 router.get("/", auth, async (req, res) => {
-    try {
-        const books = await Book.find();
-        res.render("books", { books });
-    } catch (err) {
-        alert("Warning", err.message )
-
-        // res.status(500).send({ success: false, message: err.message });
+  try {
+    const books = await Book.find();
+    res.render("books", { books });
+  } catch (err) {
+    console.log("JSON STRINGIFY", JSON.stringify(err));
+    console.log("JSON PParse", JSON.parse(err)); 
+    if (JSON.parse(err).messag == "Unauthorized") {
+      res.render("login", { error: "Unauthorized" });
+    } else {
+      res.status(400).send({ success: false, message: err.message });
     }
+  }
 });
 
 // Get one book
 router.get("/:id", auth, getBook, async (req, res) => {
-  console.log("RES-----------", res);
-  res.render("viewBook", { book:res.book  });
+  try {
+    res.render("viewBook", { book: res.book });
+  } catch (err) {
 
-//   res.status(200).send({ success: true, data: res.book });
+    if (JSON.parse(err).message == "Unauthorized") {
+      res.render("login", { error: "Unauthorized" });
+    } else {
+      res.status(400).send({ success: false, message: err.message });
+    }
+  }
 });
 
 router.get("/:id/edit", auth, getBook, (req, res) => {
+  try {
     res.render("editBook", { book: res.book });
+  } catch (err) {
+    if ((err.message = "Unauthorized")) {
+      res.render("login", { error: "Unauthorized" });
+    } else {
+      res.status(400).send({ success: false, message: err.message });
+    }
+  }
 });
 
 // Create a book
@@ -69,11 +67,12 @@ router.post("/", auth, async (req, res) => {
     await book.save();
     const books = await Book.find();
     res.render("books", { books }); // Pass the books array to the template
-    // res.status(201).send({ success: true, data: newBook });
   } catch (err) {
-    alert("Warning", err.message )
-
-    // res.status(400).send({ success: false, message: err.message });
+    if ((err.message = "Unauthorized")) {
+      res.render("login", { error: "Unauthorized" });
+    } else {
+      res.status(400).send({ success: false, message: err.message });
+    }
   }
 });
 
@@ -97,11 +96,12 @@ router.post("/:id", auth, getBook, async (req, res) => {
   try {
     await res.book.save();
     res.redirect("/books-list");
-    // res.status(200).send({ success: true, data: updatedBook });
   } catch (err) {
-    alert("Warning", err.message )
-
-    // res.status(400).send({ success: false, message: err.message });
+    if ((err.message = "Unauthorized")) {
+      res.render("login", { error: "Unauthorized" });
+    } else {
+      res.status(400).send({ success: false, message: err.message });
+    }
   }
 });
 
@@ -112,10 +112,12 @@ router.post("/:id/delete", auth, getBook, async (req, res) => {
     await res.book.deleteOne();
     const books = await Book.find();
     res.redirect("/books-list");
- 
   } catch (err) {
-    alert("Warning", err.message )
-    // res.status(500).send({ success: false, message: err.message });
+    if ((err.message = "Unauthorized")) {
+      res.render("login", { error: "Unauthorized" });
+    } else {
+      res.status(400).send({ success: false, message: err.message });
+    }
   }
 });
 

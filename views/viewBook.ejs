@@ -10,9 +10,8 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        margin: 0;
+        margin: 0px;
         padding: 20px;
-        background-color: #f4f4f4;
     }
 
     h1 {
@@ -35,6 +34,7 @@
     li:nth-child(odd) {
         background-color: #f9f9f9;
     }
+
     .container {
         max-width: 400px;
         margin: 0 auto;
@@ -43,12 +43,34 @@
         border-radius: 5px;
         background-color: #f9f9f9;
     }
+
     strong {
         font-weight: bold;
+    }
+
+    /* Style for the top header bar */
+    .top-header {
+        background-color: #004981;
+        color: white;
+        text-align: left;
+        margin: 0px;
+        padding: 20px;
+    }
+
+    /* Style for the logout button */
+    .logout-button {
+        float: right;
+        margin-right: 20px;
+        color: white;
+        text-decoration: none;
     }
 </style>
 
 <body>
+    <div class="top-header">
+        <span>Library App</span>
+        <a href="/logout" class="logout-button">Logout</a>
+    </div>
     <h1>Book Details</h1>
     <ul class="container">
         <li><strong>Title:</strong>
