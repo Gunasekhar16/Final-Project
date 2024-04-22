@@ -17,8 +17,6 @@ router.get("/", auth, async (req, res) => {
     const books = await Book.find();
     res.render("books", { books });
   } catch (err) {
-    console.log("JSON STRINGIFY", JSON.stringify(err));
-    console.log("JSON PParse", JSON.parse(err)); 
     if (JSON.parse(err).messag == "Unauthorized") {
       res.render("login", { error: "Unauthorized" });
     } else {
@@ -108,7 +106,6 @@ router.post("/:id", auth, getBook, async (req, res) => {
 // Delete a book
 router.post("/:id/delete", auth, getBook, async (req, res) => {
   try {
-    console.log("RES", res.book);
     await res.book.deleteOne();
     const books = await Book.find();
     res.redirect("/books-list");
