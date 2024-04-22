@@ -4,8 +4,19 @@
     <title>Sign Up</title>
 </head>
 <link rel="stylesheet" type="text/css" href="./styles.css">
+<script>
+    function showAlert(message) {
+        alert(message)
+    }
+</script>
 
 <body>
+    <% if (error) { %>
+        <script>
+            showAlert('<%= error %>');
+        </script>
+    <% } %>
+    
     <h1>Sign Up</h1>
     <form action="/signup" method="POST" class="container">
         <input type="text" name="username" placeholder="Username" required><br><br>

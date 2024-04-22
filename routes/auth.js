@@ -6,14 +6,14 @@ const User = require("../schema/user.js");
 const config = require("config");
 
 router.get("/", (req, res) => {
-  res.render("signup");
+  res.render("signup",{error:null});
 });
 router.get("/signup", (req, res) => {
-  res.render("signup");
+  res.render("signup",{error:null});
 });
 
 router.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login",{error:null});
 });
 
 router.post("/signup", async (req, res) => {
@@ -24,9 +24,14 @@ router.post("/signup", async (req, res) => {
     // Check if user with the same email already exists
     let user = await User.findOne({ email });
     if (user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists" });
+      //   return res
+      //     .status(400)
+      //     .json({ success: false, message: "User already exists" });
+      // Some logic that may generate an error
+
+      res.render("signup", { error: "User already exists" });
+
+      return;
     }
 
     // Hash the password
@@ -42,28 +47,32 @@ router.post("/signup", async (req, res) => {
     req.session.token = token;
 
     // res.status(201).json({ success: true, token });
-    res.redirect(200,"/books-list");
+    res.redirect(200, "/books-list");
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.render("signup", { error: err.message });
   }
 });
-router.post("/signin", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+    //   return res
+    //     .status(404)
+    //     .json({ success: false, message: "User not found" });
+    res.render("login", { error: "User not found" });
+
     }
 
     // Check if the password matches
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid password" });
+        res.render("login", { error: "Invalid password" });
+
+    //   return res
+    //     .status(401)
+    //     .json({ success: false, message: "Invalid password" });
     }
 
     // Generate JWT token
@@ -74,7 +83,9 @@ router.post("/signin", async (req, res) => {
     res.redirect("/books-list");
     // res.status(200).json({ success: true, token });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    // res.status(500).json({ success: false, message: err.message });
+    res.render("login", { error:err.message });
+
   }
 });
 
