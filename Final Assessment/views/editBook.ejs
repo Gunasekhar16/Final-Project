@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0px;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    button {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+    
+
+
+    /* Style for the top header bar */
+    .top-header {
+        background-color: #004981;
+        color: white;
+        text-align: left;
+        margin: 0px;
+        padding: 20px;
+    }
+
+    /* Style for the logout button */
+    .logout-button {
+        float: right;
+        margin-right: 20px;
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+<body>
+
+    <div class="top-header">
+        <span>Library App</span>
+        <a href="/logout" class="logout-button">Logout</a>
+    </div>
+    <h1>Edit Book</h1>
+    <form action="/books-list/<%= book._id %>" method="post" class="container"> 
+        <input type="hidden" name="_method" value="PATCH">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="<%= book.title %>"><br>
+        <label for="author">Author:</label><br>
+        <input type="text" id="author" name="author" value="<%= book.author %>"><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"><%= book.description %></textarea><br>
+        <label for="pageCount">Page Count:</label><br>
+        <input type="number" id="pageCount" name="pageCount" value="<%= book.pageCount %>"><br>
+        <label for="publishDate">Publish Date:</label><br>
+        <input type="date" id="publishDate" name="publishDate" value="<%= book.publishDate.toISOString().split('T')[0] %>"><br>
+        <button type="submit">Update Book</button>
+    </form>
+</body>
+</html>

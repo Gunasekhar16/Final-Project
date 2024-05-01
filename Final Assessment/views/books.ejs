@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+</head>
+<link rel="stylesheet" type="text/css" href="./books.css">
+<script>
+    function deleteBook(bookId) {
+        if (confirm('Are you sure you want to delete this book?')) {
+            // Set the form action to include the book ID
+            document.getElementById('deleteForm').setAttribute('action', '/books-list/' + bookId+'/delete');
+            // Submit the form
+            document.getElementById('deleteForm').submit();
+        }
+    }
+</script>
+<body>
+    <div class="top-header">
+        <span>Library App</span>
+        <a href="/logout" class="logout-button">Logout</a>
+    </div>
+    <h1>Books</h1>
+    <a href="/books-list/new" class="add-button">Add Book</a>
+
+    <% if (books.length===0) { %>
+        <p>No books exist.</p>
+        <% } else { %>
+            <ul>
+                <% books.forEach((book)=> { %>
+                    <li>
+                        <div>
+                            <strong>Title:</strong>
+                            <%= book.title %><br>
+                            <strong>Author:</strong>
+                            <%= book.author %><br>
+                            <strong>Description:</strong>
+                            <%= book.description %><br>
+                            <strong>Page Count:</strong>
+                            <%= book.pageCount %><br>
+                            <strong>Publish Date:</strong>
+                            <%= book.publishDate %><br>
+                        </div>
+                        <div>
+                            <a href="#" class="delete-button" onclick="deleteBook('<%= book._id %>')">Delete</a>
+
+                            <!-- Add a hidden form to the body -->
+                            <form id="deleteForm" action="/books-list/<%= book._id %>" method="POST" style="display: none;">
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>
+                                                        <a href="/books-list/<%= book._id %>/edit" class="edit-button">Edit</a>
+                            <a href="/books-list/<%= book._id %>" class="view-button">View Book</a>
+                        </div>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } %>
+
+</body>
+
+</html>
